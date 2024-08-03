@@ -1,0 +1,103 @@
+
+
+s3://stedi-data-lake-house/step_trainer/trusted/
+
+s3://stedi-data-lake-house/customer/
+
+s3://stedi-data-lake-house/machine_learning/curated/
+machine_learning_curated
+
+Queries Spark Project
+--landing
+
+select *
+from "accelerometer_landing" 
+
+select *
+from "customer_landing" 
+
+select *
+from step_trainer_landing
+
+
+--trusted
+
+SELECT * 
+FROM accelerometer_trusted
+
+select *
+from customer_trusted
+
+
+select *
+from step_trainer_trusted
+
+
+--curated
+
+
+select *
+from customer_curated
+
+
+select
+	s.sensorreadingtime
+	,s.serialnumber
+	,s.distancefromobject
+from step_trainer_landing s
+inner join customer_curated c
+	on s.serialnumber = c.serialnumber
+	
+DROP TABLE `customer_curated`;
+
+
+
+select s.sensorreadingtime,s.serialnumber,s.distancefromobject
+from step_trainer_trusted s
+left join accelerometer_trusted a
+    ON s.sensorreadingtime = a.timestamp
+
+
+
+
+===
+
+--ROW COUNTS Data Checks
+
+--Landing Schema
+--81273
+select *
+from "accelerometer_landing" ;
+
+--956
+select *
+from "customer_landing" ;
+
+--28,680
+select *
+from step_trainer_landing;
+
+--Trusted Schema
+--40,981
+SELECT * 
+FROM accelerometer_trusted
+
+--482
+select *
+from customer_trusted
+
+--14,460
+select *
+from step_trainer_trusted
+
+--Curated Schema
+--482
+select *
+from customer_curated
+
+--43681
+select *
+from machine_learning_curated
+
+
+
